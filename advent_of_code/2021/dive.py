@@ -4,12 +4,13 @@ if __name__ == '__main__':
     depth = 0
     with open('dive.txt') as f:
         lines = f.readlines()
+        x = int(line.split()[1])
         for line in lines:
             if line.startswith("forward"):
-                forward += int(line.split()[1])
-                depth += aim * int(line.split()[1])
+                forward += x
+                depth += aim * x
             elif line.startswith("up"):
-                aim -= int(line.split()[1])
+                aim -= x
             elif line.startswith("down"):
-                aim += int(line.split()[1])
+                aim += x
     print(depth * forward)
