@@ -73,11 +73,12 @@ def main():
     with open("dive.txt", encoding="utf-8") as file:
         lines = file.readlines()
         for line in lines:
+            value = int(line.split()[1])
             if line.startswith("forward"):
-                forward += int(line.split()[1])
-                depth += aim * int(line.split()[1])
+                forward += value
+                depth += aim * value
             elif line.startswith("up"):
-                aim -= int(line.split()[1])
+                aim -= value
             elif line.startswith("down"):
                 aim += int(line.split()[1])
     print(depth * forward)
