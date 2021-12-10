@@ -86,6 +86,42 @@ above example, this is 9 * 14 * 9 = 1134.
 
 What do you get if you multiply together the sizes of the three largest basins?
 """
+from collections import deque
+
+
+def bfs_search(heightmap, i, j):
+    """
+    doing breadth first search to find all points in basins
+    :param heightmap: height points of the map
+    :param i: x_coord coordinate of lowest point
+    :param j: y_coord coordinate of lowest point
+    :return: size of the basin
+    """
+    queue = deque()
+    queue.append((i, j))
+    size = 0
+    used = {}
+    used[(i, j)] = True
+    while len(queue) > 0:
+        i, j = queue.popleft()
+        size += 1
+        for x_coord, y_coord in [
+            (i + 1, j),
+            (i - 1, j),
+            (i, j + 1),
+            (i, j - 1),
+        ]:
+            if (
+                1 <= x_coord <= len(heightmap) - 1
+                and 1 <= y_coord <= len(heightmap[0]) - 1
+                and heightmap[x_coord][y_coord] > heightmap[i][j]
+                and heightmap[x_coord][y_coord] != 9
+                and heightmap[x_coord][y_coord] != 100
+            ):
+                if (x_coord, y_coord) not in used:
+                    queue.append((x_coord, y_coord))
+                    used[(x_coord, y_coord)] = True
+    return size
 
 
 def main():
@@ -102,7 +138,7 @@ def main():
         for i in range(1, size_x + 1):
             for j in range(1, size_y + 1):
                 heightmap[i][j] = int(lines[i - 1][j - 1])
-        result_sum = 0
+        basin_sizes = []
         for i in range(1, size_x + 1):
             for j in range(1, size_y + 1):
                 lowest = min(
@@ -114,8 +150,9 @@ def main():
                     ]
                 )
                 if lowest > heightmap[i][j]:
-                    result_sum += heightmap[i][j] + 1
-        print(result_sum)
+                    basin_sizes.append(bfs_search(heightmap, i, j))
+        basin_sizes.sort()
+        print(basin_sizes[-1] * basin_sizes[-2] * basin_sizes[-3])
 
 
 if __name__ == "__main__":
