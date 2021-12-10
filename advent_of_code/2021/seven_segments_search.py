@@ -104,14 +104,165 @@ line), in the above example, there are 26 instances of digits that use a
 unique number of segments (highlighted above).
 
 In the output values, how many times do digits 1, 4, 7, or 8 appear?
+
+--- Part Two ---
+
+Through a little deduction, you should now be able to determine the
+remaining digits. Consider again the first example above:
+
+acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab |
+cdfeb fcadb cdfeb cdbaf
+
+After some careful analysis, the mapping between signal wires and segments
+only make sense in the following configuration:
+
+ dddd
+e    a
+e    a
+ ffff
+g    b
+g    b
+ cccc
+So, the unique signal patterns would correspond to the following digits:
+
+acedgfb: 8
+cdfbe: 5
+gcdfa: 2
+fbcad: 3
+dab: 7
+cefabd: 9
+cdfgeb: 6
+eafb: 4
+cagedb: 0
+ab: 1
+Then, the four digits of the output value can be decoded:
+
+cdfeb: 5
+fcadb: 3
+cdfeb: 5
+cdbaf: 3
+Therefore, the output value for this entry is 5353.
+
+Following this same process for each entry in the second, larger example
+above, the output value of each entry can be determined:
+
+fdgacbe cefdb cefbgd gcbe: 8394
+fcgedb cgb dgebacf gc: 9781
+cg cg fdcagb cbg: 1197
+efabcd cedba gadfec cb: 9361
+gecf egdcabf bgf bfgea: 4873
+gebdcfa ecba ca fadegcb: 8418
+cefg dcbef fcge gbcadfe: 4548
+ed bcgafe cdgba cbgef: 1625
+gbdfcae bgc cg cgb: 8717
+fgae cfgab fg bagce: 4315
+Adding all of the output values in this larger example produces 61229.
+
+For each entry, determine all of the wire/segment connections and decode the
+four-digit output values. What do you get if you add up all of the output
+values?
+
 """
+
+
+def sort_str(string):
+    """
+    Sort a string of wires and segments.
+    """
+    return "".join(sorted(string))
+
+
+def is_found(params, target):
+    """
+    searching for param in sixer (element by element)
+    :param params: what to search
+    :param target: where to search
+    :return: True if all elements in param are found in target, False otherwise
+    """
+    for param in params:
+        if param not in target:
+            return False
+    return True
+
+
+def detect_rest(fivers, sixers, num_digits, str_digits):
+    """
+    detecting rest of the digits
+    """
+    new_fivers = []
+    new_sixers = []
+    for fiver in fivers:
+        if is_found(num_digits[1], fiver):
+            num_digits[3] = fiver
+            str_digits[fiver] = 3
+        else:
+            new_fivers.append(fiver)
+    for sixer in sixers:
+        if is_found(num_digits[4], sixer):
+            num_digits[9] = sixer
+            str_digits[sixer] = 9
+        else:
+            new_sixers.append(sixer)
+    five = ""
+    six = ""
+    for fiver in new_fivers:
+        for sixer in new_sixers:
+            if is_found(fiver, sixer):
+                num_digits[5] = fiver
+                str_digits[fiver] = 5
+                five = fiver
+                num_digits[6] = sixer
+                str_digits[sixer] = 6
+                six = sixer
+    for fiver in new_fivers:
+        if fiver != five:
+            num_digits[2] = fiver
+            str_digits[fiver] = 2
+    for sixer in new_sixers:
+        if sixer != six:
+            num_digits[0] = sixer
+            str_digits[sixer] = 0
 
 
 def main():
     """
     main solver function
     """
-    pass
+    with open("seven_segments_search.txt", encoding="utf-8") as file:
+        lines = file.readlines()
+        result_sum = 0
+        for line in lines:
+            digits = line.split("|")[0].strip().split(" ")
+            str_digits = {}
+            num_digits = {}
+            result = line.split("|")[1].strip().split(" ")
+            fivers = []
+            sixers = []
+            for i, digit in enumerate(digits):
+                if len(digit) == 3:
+                    str_digits[sort_str(digit)] = 7
+                    num_digits[7] = sort_str(digit)
+                elif len(digit) == 2:
+                    str_digits[sort_str(digit)] = 1
+                    num_digits[1] = sort_str(digit)
+                elif len(digit) == 4:
+                    str_digits[sort_str(digit)] = 4
+                    num_digits[4] = sort_str(digit)
+                elif len(digit) == 7:
+                    str_digits[sort_str(digit)] = 8
+                    num_digits[8] = sort_str(digit)
+                elif len(digit) == 5:
+                    fivers.append(sort_str(digit))
+                elif len(digit) == 6:
+                    sixers.append(sort_str(digit))
+            detect_rest(fivers, sixers, num_digits, str_digits)
+            current_sum = 0
+            for i, digit in enumerate(result):
+                current_sum += str_digits[sort_str(digit)] * (
+                    10 ** (len(result) - i - 1)
+                )
+            result_sum += current_sum
+        print(result_sum)
 
 
 if __name__ == "__main__":
