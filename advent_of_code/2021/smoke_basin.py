@@ -100,8 +100,7 @@ def bfs_search(heightmap, i, j):
     queue = deque()
     queue.append((i, j))
     size = 0
-    used = {}
-    used[(i, j)] = True
+    used = {(i, j): True}
     while len(queue) > 0:
         i, j = queue.popleft()
         size += 1
