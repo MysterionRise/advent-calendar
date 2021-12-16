@@ -77,14 +77,94 @@ Apply 10 steps of pair insertion to the polymer template and find the most
 and least common elements in the result. What do you get if you take the
 quantity of the most common element and subtract the quantity of the least
 common element?
+
+--- Part Two ---
+
+The resulting polymer isn't nearly strong enough to reinforce the submarine.
+You'll need to run more steps of the pair insertion process; a total of 40
+steps should do it.
+
+In the above example, the most common element is B (occurring 2192039569602
+times) and the least common element is H (occurring 3849876073 times);
+subtracting these produces 2188189693529.
+
+Apply 40 steps of pair insertion to the polymer template and find the most
+and least common elements in the result. What do you get if you take the
+quantity of the most common element and subtract the quantity of the least
+common element?
 """
+
+
+def process_rules(raw_rules):
+    """
+    process rules
+    """
+    rules = {}
+    for rule in raw_rules:
+        rule = rule.strip().split(" -> ")
+        rules[rule[0]] = rule[1]
+    return rules
+
+
+def process_template(pairs, rules):
+    """
+    process dict of pairs with list of rules
+    """
+    new_pairs = {}
+    for pair in pairs:
+        if pair in rules:
+            cnt = pairs[pair]
+            new_pairs[pair[0] + rules[pair]] = (
+                new_pairs.get(pair[0] + rules[pair], 0) + cnt
+            )
+            new_pairs[rules[pair] + pair[1]] = (
+                new_pairs.get(rules[pair] + pair[1], 0) + cnt
+            )
+        else:
+            new_pairs[pair] = pairs[pair]
+    return new_pairs
+
+
+def convert_to_pairs(template):
+    """
+    convert template to dict of pairs
+    """
+    pairs = {}
+    for i in range(len(template)):
+        if i + 1 < len(template):
+            pairs[template[i : i + 2]] = pairs.get(template[i : i + 2], 0) + 1
+    return pairs
+
+
+def stats(template, last_el):
+    """
+    find most common and least common counts for characters in list of pairs
+    """
+    counts = {}
+    for _, pair in enumerate(list(template)):
+        if pair[0] in counts:
+            counts[pair[0]] += template[pair]
+        else:
+            counts[pair[0]] = template[pair]
+    counts[last_el] = counts.get(last_el, 0) + 1
+    return max(counts.values()), min(counts.values())
+
 
 def main():
     """
     main solver function
     """
-    pass
+    with open("extended_polymerization.txt", encoding="utf-8") as file:
+        lines = file.readlines()
+        template = convert_to_pairs(lines[0].strip())
+        rules = process_rules(lines[1:])
+        for _ in range(40):
+            print(f"step number {_ + 1}")
+            template = process_template(template, rules)
+            print(template)
+        most_common, least_common = stats(template, lines[0].strip()[-1])
+        print(most_common - least_common)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
