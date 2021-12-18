@@ -291,7 +291,6 @@ def main():
                             x = find_literal(line, idx)
                         else:
                             y = find_operator(line, idx)
-
                     # if current_sum % 4 > 0:
                     #     idx += (4 - (current_sum % 4))
                     # idx += 11 + length * 11
