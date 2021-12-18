@@ -55,7 +55,16 @@ def main():
     """
     main solver function
     """
-    pass
+    with open("chiton.txt", encoding="utf-8") as file:
+        lines = file.readlines()
+        lines = [line.strip() for line in lines]
+        field = [
+            [int(lines[j][i]) for i in range(len(lines))]
+            for j in range(len(lines[0]))
+        ]
+
+
+#         add dijkstra algorithm
 
 
 if __name__ == "__main__":
