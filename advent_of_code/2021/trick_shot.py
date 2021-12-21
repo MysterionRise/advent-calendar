@@ -168,7 +168,7 @@ target area after any step?
 """
 
 
-def simulate_shot(x_coords, y_coords, x_speed, y_speed) -> int:
+def simulate_shot(x_coords, y_coords, x_speed, y_speed) -> tuple[bool, int]:
     """
     Simulates shot from Start point [0][500] with x_speed, y_speed
     :return: True if final shot position is in target area, False otherwise
@@ -188,7 +188,10 @@ def simulate_shot(x_coords, y_coords, x_speed, y_speed) -> int:
         max_y = max(max_y, y_pos)
         y_speed -= 1
         idx += 1
-        if x_coords[0] <= x_pos <= x_coords[1] and y_coords[0] <= y_pos <= y_coords[1]:
+        if (
+            x_coords[0] <= x_pos <= x_coords[1]
+            and y_coords[0] <= y_pos <= y_coords[1]
+        ):
             return True, max_y
     return False, max_y
 
@@ -208,19 +211,13 @@ def main():
         number_of_correct_shots = 0
         for x_speed in range(-500, 500):
             for y_speed in range(-500, 500):
-                landed, _ = simulate_shot(
+                landed, height = simulate_shot(
                     x_coords, y_coords, x_speed, y_speed
                 )
                 if landed:
-                    # print("Landed at height", height)
+                    print("Landed at height", height)
                     number_of_correct_shots += 1
         print(number_of_correct_shots)
-        # landed, height = simulate_shot(field, 9, 0)
-        # print(landed, height)
-        # for y in range(len(field)):
-        #     for x in range(len(field[y])):
-        #         print(field[y][x], end="")
-        #     print()
 
 
 if __name__ == "__main__":
