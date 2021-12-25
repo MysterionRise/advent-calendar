@@ -83,13 +83,13 @@ the player that wins in more universes; in how many universes does that
 player win?
 
 """
-from functools import lru_cache
+from functools import cache
 
 # distribution of scores after 3 throws of Dirac dice
 frequency = {3: 1, 4: 3, 5: 6, 6: 7, 7: 6, 8: 3, 9: 1}
 
 
-@lru_cache(10000000)
+@cache
 def dynamic_programming(position, score, turn, init):
     """
     Ways to reach to score on position, turn, starting from init
@@ -123,8 +123,10 @@ def count_wins(pos1, pos2, is_player1):
     res = 0
     for end_pos1 in range(1, 11):
         for score in range(21, 50):
+            # not sure what max number of moves could be, leave it to 50
             for turn in range(50):
                 for other_end_pos in range(1, 11):
+                    # since we want other score to reach less than 21
                     for other_score in range(21):
                         res += dynamic_programming(
                             end_pos1, score, turn, pos1
