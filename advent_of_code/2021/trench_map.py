@@ -107,6 +107,7 @@ def main():
     """
     with open("trench_map.txt", encoding="utf-8") as file:
         lines = file.readlines()
+        print(lines)
 
 
 if __name__ == "__main__":

@@ -59,9 +59,9 @@ def main():
         lines = file.readlines()
         lines = [line.strip() for line in lines]
         field = [
-            [int(lines[j][i]) for i in range(len(lines))]
-            for j in range(len(lines[0]))
+            [int(lines[j][i]) for i in range(len(lines))] for j in range(len(lines[0]))
         ]
+        print(field)
 
 
 #         add dijkstra algorithm

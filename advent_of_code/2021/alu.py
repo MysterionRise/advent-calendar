@@ -113,55 +113,55 @@ import sys
 
 def main():
     """Solve the problem!"""
-    with open('alu.txt', encoding="utf-8") as file:
+    with open("alu.txt", encoding="utf-8") as file:
         instructions = file.readlines()
     instructions = [line.strip() for line in instructions]
     for i in range(99999999999999, 11111111111111, -1):
         if i % 10000000 == 0:
             print(i)
-        if '0' in str(i):
+        if "0" in str(i):
             continue
         current_pos = 0
-        vars = {'w': 0, 'x': 0, 'y': 0, 'z': 0}
+        variables = {"w": 0, "x": 0, "y": 0, "z": 0}
         for instruction in instructions:
-            if instruction.startswith('inp'):
+            if instruction.startswith("inp"):
                 var = instruction[4]
                 # get digit at current_pos from i
-                vars[var] = i // 10 ** current_pos % 10
+                variables[var] = i // 10**current_pos % 10
                 current_pos += 1
-            elif instruction.startswith('add'):
+            elif instruction.startswith("add"):
                 var1 = instruction[4]
                 var2 = instruction.split()[2]
-                if var2 in vars.keys():
-                    vars[var1] += vars[var2]
+                if var2 in variables:
+                    variables[var1] += variables[var2]
                 else:
-                    vars[var1] += int(var2)
-            elif instruction.startswith('mul'):
+                    variables[var1] += int(var2)
+            elif instruction.startswith("mul"):
                 var1 = instruction[4]
                 var2 = instruction.split()[2]
-                if var2 in vars.keys():
-                    vars[var1] *= vars[var2]
+                if var2 in variables:
+                    variables[var1] *= variables[var2]
                 else:
-                    vars[var1] *= int(var2)
-            elif instruction.startswith('mod'):
+                    variables[var1] *= int(var2)
+            elif instruction.startswith("mod"):
                 var1 = instruction[4]
                 var2 = int(instruction.split()[2])
-                vars[var1] = vars[var1] % var2
-            elif instruction.startswith('div'):
+                variables[var1] = variables[var1] % var2
+            elif instruction.startswith("div"):
                 var1 = instruction[4]
                 var2 = int(instruction.split()[2])
-                vars[var1] = vars[var1] // var2
-            elif instruction.startswith('eql'):
+                variables[var1] = variables[var1] // var2
+            elif instruction.startswith("eql"):
                 var1 = instruction[4]
                 var2 = instruction.split()[2]
-                if var2 in vars.keys():
-                    vars[var1] = int(vars[var1] == vars[var2])
+                if var2 in variables:
+                    variables[var1] = int(variables[var1] == variables[var2])
                 else:
-                    vars[var1] = int(vars[var1] == int(var2))
-        if vars['z'] == 0:
+                    variables[var1] = int(variables[var1] == int(var2))
+        if variables["z"] == 0:
             print(i)
             sys.exit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -384,10 +384,7 @@ def flash(octopuses, flashed, i, j):
             if y_coord < 0 or y_coord >= len(octopuses[0]):
                 continue
             octopuses[x_coord][y_coord] += 1
-            if (
-                not flashed[x_coord][y_coord]
-                and octopuses[x_coord][y_coord] > 9
-            ):
+            if not flashed[x_coord][y_coord] and octopuses[x_coord][y_coord] > 9:
                 flash(octopuses, flashed, x_coord, y_coord)
 
 

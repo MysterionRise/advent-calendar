@@ -135,10 +135,10 @@ def is_winner(board):
             result_sum += val
         if result_sum == 0:
             return True
-    for j in range(len(board[0])):
+    for j, row in enumerate(len(board[0])):
         result_sum = 0
-        for i in range(len(board)):
-            result_sum += board[i][j]
+        for i, cell in enumerate(row):
+            result_sum += cell
         if result_sum == 0:
             return True
     return False

@@ -342,10 +342,10 @@ def is_next_east_cell_empty(i, j, field):
     :return: True if next right cell of the field is empty, False otherwise
     """
     if j == len(field[0]) - 1:
-        if field[i][0] == '.':
+        if field[i][0] == ".":
             return True
         return False
-    if field[i][j + 1] == '.':
+    if field[i][j + 1] == ".":
         return True
     return False
 
@@ -360,14 +360,14 @@ def move_cucumbers_east(field):
     moving_candidates = []
     for i, row in enumerate(field):
         for j, val in enumerate(row):
-            if val == '>' and is_next_east_cell_empty(i, j, field):
+            if val == ">" and is_next_east_cell_empty(i, j, field):
                 moving_candidates.append((i, j))
     for _, (x, y) in enumerate(moving_candidates):
-        new_field[x][y] = '.'
+        new_field[x][y] = "."
         if y == len(field[0]) - 1:
-            new_field[x][0] = '>'
+            new_field[x][0] = ">"
         else:
-            new_field[x][y + 1] = '>'
+            new_field[x][y + 1] = ">"
     return len(moving_candidates) > 0, new_field
 
 
@@ -380,10 +380,10 @@ def is_next_south_cell_empty(i, j, field):
     :return: True if next below cell is empty, False otherwise
     """
     if i == len(field) - 1:
-        if field[0][j] == '.':
+        if field[0][j] == ".":
             return True
         return False
-    if field[i + 1][j] == '.':
+    if field[i + 1][j] == ".":
         return True
     return False
 
@@ -398,14 +398,14 @@ def move_cucumbers_south(field):
     moving_candidates = []
     for i, row in enumerate(field):
         for j, val in enumerate(row):
-            if val == 'v' and is_next_south_cell_empty(i, j, field):
+            if val == "v" and is_next_south_cell_empty(i, j, field):
                 moving_candidates.append((i, j))
     for _, (x, y) in enumerate(moving_candidates):
-        new_field[x][y] = '.'
+        new_field[x][y] = "."
         if x == len(field) - 1:
-            new_field[0][y] = 'v'
+            new_field[0][y] = "v"
         else:
-            new_field[x + 1][y] = 'v'
+            new_field[x + 1][y] = "v"
     return len(moving_candidates) > 0, new_field
 
 
@@ -424,5 +424,5 @@ def main():
             break
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

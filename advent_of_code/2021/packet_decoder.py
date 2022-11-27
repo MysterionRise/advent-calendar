@@ -224,14 +224,14 @@ def find_operator(line, idx):
             idx += 6
             length_idx += 6
             if int(packet_type, 2) == 4:
-                x = find_literal(line, idx)
+                find_literal(line, idx)
             else:
-                y = find_operator(line, idx)
+                find_operator(line, idx)
 
         if int(packet_type, 2) == 4:
-            x = find_literal(line, idx)
+            find_literal(line, idx)
         else:
-            y = find_operator(line, idx)
+            find_operator(line, idx)
     else:
         # 11 bit number
         length = int(line[idx : idx + 11], 2)
@@ -241,9 +241,9 @@ def find_operator(line, idx):
             packet_type = line[idx + 3 : idx + 6]
             idx += 6
             if int(packet_type, 2) == 4:
-                x = find_literal(line, idx)
+                find_literal(line, idx)
             else:
-                y = find_operator(line, idx)
+                find_operator(line, idx)
 
 
 def main():
@@ -265,9 +265,9 @@ def main():
             idx += 6
             sum_of_version += int(version, 2)
             if int(packet_type, 2) == 4:
-                x = find_literal(line, idx)
+                find_literal(line, idx)
             else:
-                y = find_operator(line, idx)
+                find_operator(line, idx)
                 length_type = line[idx : idx + 1]
                 idx += 1
                 if int(length_type, 2) == 0:
@@ -288,9 +288,9 @@ def main():
                         sum_of_version += int(version, 2)
                         idx += 6
                         if int(packet_type, 2) == 4:
-                            x = find_literal(line, idx)
+                            find_literal(line, idx)
                         else:
-                            y = find_operator(line, idx)
+                            find_operator(line, idx)
                     # if current_sum % 4 > 0:
                     #     idx += (4 - (current_sum % 4))
                     # idx += 11 + length * 11

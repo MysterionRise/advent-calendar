@@ -256,11 +256,7 @@ def split(line):
             brackets_stack.append(val)
         else:
             if val != ",":
-                if (
-                    not_splitted
-                    and line[idx + 1] != ","
-                    and line[idx + 1] != "]"
-                ):
+                if not_splitted and line[idx + 1] != "," and line[idx + 1] != "]":
                     num = int(val + line[idx + 1])
                     brackets_stack.append("[")
                     left, right = split_of_number(num)

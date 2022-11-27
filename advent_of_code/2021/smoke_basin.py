@@ -131,9 +131,7 @@ def main():
         lines = file.readlines()
         size_x = len(lines)
         size_y = len(lines[0]) - 1
-        heightmap = [
-            [100 for _ in range(size_y + 2)] for _ in range(size_x + 2)
-        ]
+        heightmap = [[100 for _ in range(size_y + 2)] for _ in range(size_x + 2)]
         for i in range(1, size_x + 1):
             for j in range(1, size_y + 1):
                 heightmap[i][j] = int(lines[i - 1][j - 1])

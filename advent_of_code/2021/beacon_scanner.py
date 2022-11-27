@@ -410,13 +410,32 @@ def generate_options_for_point(x: int, y: int, z: int) -> List[Tuple[int, int, i
     """
     generate 24 different orientations for point presented of (x, y, z)
     """
-    return [(x, y, z), (z, y, -x), (-x, y, -z), (-z, y, x),
-            (-y, x, z), (z, x, y), (y, x, -z), (-z, x, -y),
-            (y, -x, z), (z, -x, -y), (-y, -x, -z), (-z, -x, y),
-            (x, -z, y), (y, -z, -x), (-x, -y, z), (-y, -z, x),
-            (x, -y, -z), (-z, -y, -x), (-x, -y, z), (z, -y, x),
-            (x, z, -y), (-y, z, -x), (-x, z, y), (y, z, x)
-            ]
+    return [
+        (x, y, z),
+        (z, y, -x),
+        (-x, y, -z),
+        (-z, y, x),
+        (-y, x, z),
+        (z, x, y),
+        (y, x, -z),
+        (-z, x, -y),
+        (y, -x, z),
+        (z, -x, -y),
+        (-y, -x, -z),
+        (-z, -x, y),
+        (x, -z, y),
+        (y, -z, -x),
+        (-x, -y, z),
+        (-y, -z, x),
+        (x, -y, -z),
+        (-z, -y, -x),
+        (-x, -y, z),
+        (z, -y, x),
+        (x, z, -y),
+        (-y, z, -x),
+        (-x, z, y),
+        (y, z, x),
+    ]
 
 
 def main():
@@ -435,19 +454,22 @@ def main():
                     accum = []
                     scanner_id += 1
             else:
-                accum.append(generate_options_for_point(*[int(x) for x in line.strip().split(",")]))
+                accum.append(
+                    generate_options_for_point(
+                        *[int(x) for x in line.strip().split(",")]
+                    )
+                )
         if accum:
             scanners[scanner_id] = accum
         for i, scanner in enumerate(scanners):
             for orientation in scanners:
                 print(i, orientation)
 
-        for i in range(len(scanners)):
-            for j in range(len(scanners[i])):
-                print(scanners[i][j])
+        for i, scanner in enumerate(scanners):
+            for j, cell in enumerate(scanner):
+                print(cell)
         selected_scanner = scanners.pop()
         # for scanner in scanners:
-
 
 
 if __name__ == "__main__":
