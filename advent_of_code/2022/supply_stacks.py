@@ -73,24 +73,34 @@ this example, the top crates are C in stack 1, M in stack 2, and Z in stack
 After the rearrangement procedure completes, what crate ends up on top of
 each stack?
 """
+import copy
 from typing import List
 
-SIZE = 10
+SIZE = 20000
+
+
+def print_field(field):
+    for _, row in enumerate(field):
+        if len(set(row)) > 1:
+            print(row)
 
 
 def complete_start(start_pos):
     field = [[""] * 10] * SIZE
     row_indx = SIZE - 1
-    for positions in start_pos[:-1]:
+    for positions in reversed(start_pos[:-1]):
         values = positions.split(" ")
         cnt = 0
         idx = 0
         current_row = [""] * 10
         for v in values:
             if cnt == 4:
-                current_row[idx] = v[1]
-                cnt = 0
                 idx += 1
+                if len(v) > 0:
+                    current_row[idx] = v[1]
+                else:
+                    current_row[idx] = ""
+                cnt = 0
             elif v.startswith("["):
                 current_row[idx] = v[1]
                 cnt = 0
@@ -121,12 +131,17 @@ def find_empty_top_crate(field, from_pos):
 
 
 def make_move(field, num_of_crates, from_pos, to_pos):
+    new_field = copy.deepcopy(field)
     for _ in range(num_of_crates):
-        idx, val = find_top_crate(field, from_pos)
-        field[idx][from_pos] = ""
-        idx = find_empty_top_crate(field, to_pos)
-        print(idx)
-    return field
+        from_idx, val = find_top_crate(new_field, from_pos)
+        new_field[from_idx][from_pos] = ""
+        to_idx = find_empty_top_crate(new_field, to_pos)
+        print(to_idx)
+        row_to_update = copy.deepcopy(new_field[to_idx])
+        row_to_update[to_pos] = val
+        new_field[to_idx] = row_to_update
+    print_field(new_field)
+    return new_field
 
 
 def find_top_crates(field) -> List[str]:
@@ -161,7 +176,7 @@ def main():
                 from_pos = int(move[3]) - 1
                 to_pos = int(move[5]) - 1
                 field = make_move(field, num_of_crates, from_pos, to_pos)
-        print(find_top_crates(field))
+        print("".join(find_top_crates(field)))
 
 
 if __name__ == "__main__":
