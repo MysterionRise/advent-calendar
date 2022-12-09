@@ -72,6 +72,68 @@ this example, the top crates are C in stack 1, M in stack 2, and Z in stack
 
 After the rearrangement procedure completes, what crate ends up on top of
 each stack?
+
+--- Part Two ---
+
+As you watch the crane operator expertly rearrange the crates, you notice
+the process isn't following your prediction.
+
+Some mud was covering the writing on the side of the crane, and you quickly
+wipe it away. The crane isn't a CrateMover 9000 - it's a CrateMover 9001.
+
+The CrateMover 9001 is notable for many new and exciting features: air
+conditioning, leather seats, an extra cup holder, and the ability to pick up
+and move multiple crates at once.
+
+Again considering the example above, the crates begin in the same configuration:
+
+    [D]
+[N] [C]
+[Z] [M] [P]
+ 1   2   3
+Moving a single crate from stack 2 to stack 1 behaves the same as before:
+
+[D]
+[N] [C]
+[Z] [M] [P]
+ 1   2   3
+
+However, the action of moving three crates from stack 1 to stack 3 means
+that those three moved crates stay in the same order, resulting in this new
+configuration:
+
+        [D]
+        [N]
+    [C] [Z]
+    [M] [P]
+ 1   2   3
+
+Next, as both crates are moved from stack 2 to stack 1, they retain their
+order as well:
+
+        [D]
+        [N]
+[C]     [Z]
+[M]     [P]
+ 1   2   3
+
+Finally, a single crate is still moved from stack 1 to stack 2, but now it's
+crate C that gets moved:
+
+        [D]
+        [N]
+        [Z]
+[M] [C] [P]
+ 1   2   3
+
+In this example, the CrateMover 9001 has put the crates in a totally
+different order: MCD.
+
+Before the rearrangement process finishes, update your simulation so that
+the Elves know where they should stand to be ready to unload the final
+supplies. After the rearrangement procedure completes, what crate ends up on
+top of each stack?
+
 """
 import copy
 from typing import List
@@ -98,6 +160,7 @@ def complete_start(start_pos):
                 idx += 1
                 if len(v) > 0:
                     current_row[idx] = v[1]
+                    idx += 1
                 else:
                     current_row[idx] = ""
                 cnt = 0
@@ -109,6 +172,7 @@ def complete_start(start_pos):
                 cnt += 1
         field[row_indx] = current_row
         row_indx -= 1
+    print(field)
     return field
 
 
@@ -132,9 +196,12 @@ def find_empty_top_crate(field, from_pos):
 
 def make_move(field, num_of_crates, from_pos, to_pos):
     new_field = copy.deepcopy(field)
+    values_to_move = []
     for _ in range(num_of_crates):
         from_idx, val = find_top_crate(new_field, from_pos)
         new_field[from_idx][from_pos] = ""
+        values_to_move.append(val)
+    for i, val in enumerate(reversed(values_to_move)):
         to_idx = find_empty_top_crate(new_field, to_pos)
         print(to_idx)
         row_to_update = copy.deepcopy(new_field[to_idx])
