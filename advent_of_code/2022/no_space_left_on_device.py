@@ -116,6 +116,20 @@ Find all of the directories with a total size of at most 100000. What is the
 sum of the total sizes of those directories?
 """
 
+from collections import defaultdict
+
+
+def get_directory_size(directory, directories):
+    size = 0
+    for file_or_dir in directories[directory]:
+        if file_or_dir.startswith("dir"):
+            # This is a subdirectory, so we recursively calculate its size
+            size += get_directory_size(file_or_dir[4:], directories)
+        else:
+            # This is a file, so we add its size to the total
+            size += int(file_or_dir.split(" ")[0])
+    return size
+
 
 def main():
     """
@@ -125,34 +139,38 @@ def main():
         lines = file.readlines()
         lines = [line.strip() for line in lines]
 
-        filesystem = {}
-        ls_mode = False
-        buffer = []
-        for line in lines[1:]:
-            curr_dir = "/"
+        # Parse the input data
+        directories = defaultdict(list)
+        current_dir = "/"
+        for line in lines:
             if line.startswith("$"):
-                if len(buffer) > 0:
-                    filesystem[curr_dir] = buffer
-                    buffer = []
-                if line.startswith("$ ls"):
-                    ls_mode = True
-                else:
-                    buffer = []
-                    ls_mode = False
-                    params = line.split(" ")
-                    move = params[-1]
-            #         where to move?
-            # if .. -> goes up
-            # if _  -> goes inside
-            else:
-                if ls_mode:
-                    params = line.split(" ")
-                    print(params)
-                    if params[0] == "dir":
-                        buffer.append(params[1])
+                # This is a command, so we update the current directory
+                _, command, *args = line.split()
+                if command == "cd":
+                    if args[0] == "/":
+                        # Change to the root directory
+                        current_dir = "/"
+                    elif args[0] == "..":
+                        # Change to the parent directory
+                        current_dir = current_dir.rsplit("/", 1)[0]
                     else:
-                        buffer.append(params[0])
-        print(filesystem)
+                        # Change to a subdirectory
+                        current_dir = f"{current_dir}/{args[0]}"
+                elif command == "ls":
+                    # List the contents of the current directory
+                    print(directories[current_dir])
+            else:
+                # This is a file or directory, so we add it to the current directory
+                directories[current_dir].append(line)
+
+        # Calculate the size of each directory and sum the sizes of all directories with a size <= 100000
+        total_size = 0
+        for directory in directories:
+            size = get_directory_size(directory, directories.copy())
+            if size <= 100000:
+                total_size += size
+
+        print(total_size)
 
 
 if __name__ == "__main__":
