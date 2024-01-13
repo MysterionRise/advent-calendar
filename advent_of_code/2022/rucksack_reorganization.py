@@ -103,9 +103,7 @@ def main():
 
         for chunk in chunks(lines, 3):
             print(chunk)
-            common_list = list(
-                set(chunk[0]).intersection(chunk[1]).intersection(chunk[2])
-            )
+            common_list = list(set(chunk[0]).intersection(chunk[1]).intersection(chunk[2]))
             for ch in common_list:
                 ascii_code = ord(ch)
                 if ch.islower():

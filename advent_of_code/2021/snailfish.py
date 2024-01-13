@@ -422,14 +422,10 @@ def main():
         for i, left_line in enumerate(lines):
             for j, right_line in enumerate(lines):
                 if i != j:
-                    snailfish_sum = sum_of_snailfish(
-                        left_line.strip(), right_line.strip()
-                    )
+                    snailfish_sum = sum_of_snailfish(left_line.strip(), right_line.strip())
                     if magnitude(snailfish_sum) > max_sum:
                         max_sum = magnitude(snailfish_sum)
-                    snailfish_sum = sum_of_snailfish(
-                        right_line.strip(), left_line.strip()
-                    )
+                    snailfish_sum = sum_of_snailfish(right_line.strip(), left_line.strip())
                     if magnitude(snailfish_sum) > max_sum:
                         max_sum = magnitude(snailfish_sum)
         print(max_sum)

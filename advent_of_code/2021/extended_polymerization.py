@@ -114,12 +114,8 @@ def process_template(pairs, rules):
     for pair in pairs:
         if pair in rules:
             cnt = pairs[pair]
-            new_pairs[pair[0] + rules[pair]] = (
-                new_pairs.get(pair[0] + rules[pair], 0) + cnt
-            )
-            new_pairs[rules[pair] + pair[1]] = (
-                new_pairs.get(rules[pair] + pair[1], 0) + cnt
-            )
+            new_pairs[pair[0] + rules[pair]] = new_pairs.get(pair[0] + rules[pair], 0) + cnt
+            new_pairs[rules[pair] + pair[1]] = new_pairs.get(rules[pair] + pair[1], 0) + cnt
         else:
             new_pairs[pair] = pairs[pair]
     return new_pairs

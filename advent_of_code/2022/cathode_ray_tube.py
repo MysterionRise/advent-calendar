@@ -409,11 +409,9 @@ def signal_strength(instructions):
             # and the signal strength hasn't already been updated for this multiple of 20 cycle,
             # update the signal strength by multiplying the closest cycle count that is a multiple of 20 by the value of X.
             if (
-                closest_multiple_of_20
-                in (20, 21, 60, 61, 100, 101, 140, 141, 180, 181, 220, 221)
+                closest_multiple_of_20 in (20, 21, 60, 61, 100, 101, 140, 141, 180, 181, 220, 221)
                 and cycles in (20, 21, 60, 61, 100, 101, 140, 141, 180, 181, 220, 221)
-                and closest_multiple_of_20
-                not in signal_updated_for_multiple_of_20_cycles
+                and closest_multiple_of_20 not in signal_updated_for_multiple_of_20_cycles
             ):
                 signal += closest_multiple_of_20 * x
                 print(closest_multiple_of_20 * x)
@@ -421,11 +419,9 @@ def signal_strength(instructions):
             x = addx(x, instruction[1])
             cycles += 1
             if (
-                closest_multiple_of_20
-                in (20, 21, 60, 61, 100, 101, 140, 141, 180, 181, 220, 221)
+                closest_multiple_of_20 in (20, 21, 60, 61, 100, 101, 140, 141, 180, 181, 220, 221)
                 and cycles in (20, 21, 60, 61, 100, 101, 140, 141, 180, 181, 220, 221)
-                and closest_multiple_of_20
-                not in signal_updated_for_multiple_of_20_cycles
+                and closest_multiple_of_20 not in signal_updated_for_multiple_of_20_cycles
             ):
                 signal += closest_multiple_of_20 * x
                 print(closest_multiple_of_20 * x)
@@ -435,10 +431,7 @@ def signal_strength(instructions):
             # If the current cycle is the 20th, 60th, 100th, 140th, 180th, or 220th,
             # and the signal strength hasn't already been updated for this multiple of 20 cycle,
             # update the signal strength by multiplying the cycle number by the value of X.
-            if (
-                cycles in (20, 60, 100, 140, 180, 220)
-                and cycles not in signal_updated_for_multiple_of_20_cycles
-            ):
+            if cycles in (20, 60, 100, 140, 180, 220) and cycles not in signal_updated_for_multiple_of_20_cycles:
                 signal += cycles * x
                 print(cycles * x)
                 signal_updated_for_multiple_of_20_cycles.add(cycles)

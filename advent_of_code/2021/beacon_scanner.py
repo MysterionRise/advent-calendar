@@ -454,11 +454,7 @@ def main():
                     accum = []
                     scanner_id += 1
             else:
-                accum.append(
-                    generate_options_for_point(
-                        *[int(x) for x in line.strip().split(",")]
-                    )
-                )
+                accum.append(generate_options_for_point(*[int(x) for x in line.strip().split(",")]))
         if accum:
             scanners[scanner_id] = accum
         for i, scanner in enumerate(scanners):
@@ -468,7 +464,7 @@ def main():
         for i, scanner in enumerate(scanners):
             for j, cell in enumerate(scanner):
                 print(cell)
-        selected_scanner = scanners.pop()
+        scanners.pop()
         # for scanner in scanners:
 
 

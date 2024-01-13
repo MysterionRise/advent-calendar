@@ -219,7 +219,7 @@ def find_operator(line, idx):
         idx += 15
         length_idx = 0
         while length_idx < length:
-            version = line[idx : idx + 3]
+            _ = line[idx : idx + 3]
             packet_type = line[idx + 3 : idx + 6]
             idx += 6
             length_idx += 6
@@ -237,7 +237,7 @@ def find_operator(line, idx):
         length = int(line[idx : idx + 11], 2)
         idx += 11
         for _ in range(length):
-            version = line[idx : idx + 3]
+            _ = line[idx : idx + 3]
             packet_type = line[idx + 3 : idx + 6]
             idx += 6
             if int(packet_type, 2) == 4:

@@ -128,9 +128,7 @@ def count_wins(pos1, pos2, is_player1):
                 for other_end_pos in range(1, 11):
                     # since we want other score to reach less than 21
                     for other_score in range(21):
-                        res += dynamic_programming(
-                            end_pos1, score, turn, pos1
-                        ) * dynamic_programming(
+                        res += dynamic_programming(end_pos1, score, turn, pos1) * dynamic_programming(
                             other_end_pos,
                             other_score,
                             turn - int(is_player1),

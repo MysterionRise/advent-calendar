@@ -258,9 +258,7 @@ def main():
             detect_rest(fivers, sixers, num_digits, str_digits)
             current_sum = 0
             for i, digit in enumerate(result):
-                current_sum += str_digits[sort_str(digit)] * (
-                    10 ** (len(result) - i - 1)
-                )
+                current_sum += str_digits[sort_str(digit)] * (10 ** (len(result) - i - 1))
             result_sum += current_sum
         print(result_sum)
 

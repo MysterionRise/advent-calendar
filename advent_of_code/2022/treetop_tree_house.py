@@ -120,9 +120,7 @@ def main():
         n = len(lines)
         m = len(lines[0])
 
-        field = [
-            [int(lines[j][i]) for i in range(len(lines))] for j in range(len(lines[0]))
-        ]
+        field = [[int(lines[j][i]) for i in range(len(lines))] for j in range(len(lines[0]))]
         max_score = 0
         for i, row in enumerate(field):
             for j, cell in enumerate(row):
